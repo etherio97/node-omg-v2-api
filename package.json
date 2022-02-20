@@ -1,0 +1,43 @@
+{
+  "name": "omg-admin-v2",
+  "version": "0.0.1",
+  "description": "Node.js REST API for OMG Admin v2",
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node -r ts-path-mapping/register dist/main.js",
+    "dev": "cross-env NODE_ENV=development nodemon -r dotenv/config -r ts-path-mapping/register src/main.ts",
+    "build": "tsc --project=tsconfig.json",
+    "credential": "node -r dotenv/config bin/get-credential.js",
+    "heroku-prebuild": "npm run credential"
+  },
+  "author": "Ethereal Tech<ethereal97@gmail.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=12.x",
+    "yarn": ">=1.x"
+  },
+  "config": {
+    "project": {
+      "serviceAccount": "serviceAccount.json"
+    }
+  },
+  "dependencies": {
+    "axios": "^0.26.0",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "express": "^4.17.3",
+    "firebase-admin": "^10.0.2",
+    "pg": "^8.7.3",
+    "printf": "^0.6.1",
+    "ts-path-mapping": "^0.1.4"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/pg": "^8.6.4",
+    "dotenv": "^16.0.0",
+    "nodemon": "^2.0.15",
+    "ts-node": "^10.5.0",
+    "typescript": "^4.5.5"
+  }
+}

@@ -1,0 +1,2 @@
+export const FIREBASE_DATABASE_URL = process.env.FIREBASE_PROJECT_ID;
+export const FIREBASE_STORAGE_BUCKET = process.env.FIREBASE_PROJECT_ID;
