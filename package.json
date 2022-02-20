@@ -5,7 +5,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node -r ts-path-mapping/register dist/main.js",
     "dev": "cross-env NODE_ENV=development nodemon -r dotenv/config -r ts-path-mapping/register src/main.ts",
-    "build": "tsc --project=tsconfig.json",
+    "build": "tsc --project tsconfig.json",
     "credential": "node -r dotenv/config bin/get-credential.js",
     "heroku-postbuild": "npm run credential"
   },
