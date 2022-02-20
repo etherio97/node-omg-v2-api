@@ -1,0 +1,33 @@
+name: CI
+on:
+  push:
+    branches:
+      - "master"
+    paths:
+      - "src/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v2
+      - name: Setup NodeJS
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14.x"
+          cache: "yarn"
+      - name: Install
+        run: yarn
+      - name: Build
+        run: yarn build
+      - name: Git Configs
+        run: |
+          git config --global user.name=Ethereal
+          git config --global user.email=etherio97@users.noreply.github.com
+      - name: Git Changes
+        run: |
+          git checkout --orphan main
+          git add --force dist
+          git commit --all --message="Built for production"
+          git push --force origin main
