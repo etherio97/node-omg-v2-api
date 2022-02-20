@@ -7,7 +7,8 @@
     "dev": "cross-env NODE_ENV=development nodemon -r dotenv/config -r ts-path-mapping/register src/main.ts",
     "build": "tsc --project tsconfig.json",
     "credential": "node -r dotenv/config bin/get-credential.js",
-    "heroku-postbuild": "npm run credential"
+    "heroku-prebuild": "yarn",
+    "heroku-postbuild": "yarn credential"
   },
   "author": "Ethereal Tech<ethereal97@gmail.com>",
   "license": "MIT",
