@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Node.js REST API for OMG Admin v2",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node -r ts-path-mapping/register dist/main.js",
+    "start": "cross-env NODE_ENV=production node -r ts-path-mapping/register dist/src/main.js",
     "dev": "cross-env NODE_ENV=development nodemon -r dotenv/config -r ts-path-mapping/register src/main.ts",
     "build": "tsc --project tsconfig.json",
     "credential": "node -r dotenv/config bin/get-credential.js",
