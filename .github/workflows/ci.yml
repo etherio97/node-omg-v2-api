@@ -4,11 +4,8 @@ on:
     branches:
       - "master"
     paths:
-      - "bin/**"
       - "src/**"
-      - "package.json"
-      - "package-lock.json"
-      - "Procfile"
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,8 +23,8 @@ jobs:
         run: yarn build
       - name: Git Configs
         run: |
-          git config --global user.name=Ethereal
-          git config --global user.email=etherio97@users.noreply.github.com
+          git config --global user.name etherio97
+          git config --global user.email etherio97@users.noreply.github.com
       - name: Git Changes
         run: |
           git checkout --orphan main
