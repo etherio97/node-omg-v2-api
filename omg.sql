@@ -1,10 +1,18 @@
 -- @block
+CREATE TABLE categories (
+    id uuid PRIMARY KEY DEFAULT uuid_generate_v4() NOT NULL,
+    name_en VARCHAR UNIQUE NOT NULL,
+    name_mm VARCHAR,
+    created_at TIMESTAMPTZ DEFAULT now()
+);
+-- @block
 CREATE TABLE products (
     id uuid PRIMARY KEY DEFAULT uuid_generate_v4() NOT NULL,
     code VARCHAR(16) NOT NULL,
     name VARCHAR NOT NULL,
     price INT NOT NULL,
     description TEXT,
+    category uuid REFERENCES categories(id),
     image VARCHAR,
     colors JSON,
     min_age INT,
@@ -14,11 +22,23 @@ CREATE TABLE products (
     created_at TIMESTAMPTZ DEFAULT now()
 );
 -- @block
+INSERT INTO categories(id, name_en)
+VALUES (
+        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
+        'Clothing'
+    ),
+    ('6845a9fd-38cb-4baf-a460-f19ac87ee1e1', 'Hat'),
+    (
+        'd438097b-fb02-4404-b4bb-f1d033360e50',
+        'Diapers'
+    );
+-- @block
 INSERT INTO products (
         id,
         code,
         name,
         price,
+        category,
         description,
         image,
         colors,
@@ -33,6 +53,7 @@ VALUES (
         'J001',
         'Jean Jacket',
         8000,
+        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
         NULL,
         'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
         '["pink"]',
@@ -47,6 +68,7 @@ VALUES (
         'J002',
         'Jean Jacket',
         5000,
+        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
         NULL,
         'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
         '["pink"]',
@@ -61,6 +83,7 @@ VALUES (
         'J003',
         'Jean Jacket',
         430,
+        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
         NULL,
         'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
         '["pink"]',
@@ -75,6 +98,7 @@ VALUES (
         'J004',
         'Jean Jacket',
         3400,
+        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
         NULL,
         'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
         '["pink"]',
@@ -89,6 +113,7 @@ VALUES (
         'J005',
         'Jean Jacket',
         8000,
+        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
         NULL,
         'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
         '["pink"]',
@@ -103,6 +128,7 @@ VALUES (
         'J006',
         'Jean Jacket',
         3400,
+        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
         NULL,
         'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
         '["pink"]',
@@ -117,6 +143,7 @@ VALUES (
         'J007',
         'Jean Jacket',
         430,
+        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
         NULL,
         'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
         '["pink"]',
@@ -131,6 +158,7 @@ VALUES (
         'J008',
         'Jean Jacket',
         430,
+        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
         NULL,
         'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
         '["pink"]',
@@ -145,6 +173,7 @@ VALUES (
         'J009',
         'Jean Jacket',
         8000,
+        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
         NULL,
         'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
         '["pink"]',
@@ -159,6 +188,7 @@ VALUES (
         'J010',
         'Jean Jacket',
         430,
+        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
         NULL,
         'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
         '["pink"]',
@@ -173,6 +203,7 @@ VALUES (
         'J011',
         'Jean Jacket',
         430,
+        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
         NULL,
         'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
         '["pink"]',
@@ -187,6 +218,7 @@ VALUES (
         'J012',
         'Jean Jacket',
         5000,
+        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
         NULL,
         'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
         '["pink"]',
@@ -201,6 +233,7 @@ VALUES (
         'J013',
         'Jean Jacket',
         8000,
+        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
         NULL,
         'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
         '["pink"]',
@@ -215,6 +248,7 @@ VALUES (
         'J014',
         'Jean Jacket',
         430,
+        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
         NULL,
         'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
         '["pink"]',
@@ -229,6 +263,7 @@ VALUES (
         'J015',
         'Jean Jacket',
         3400,
+        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
         NULL,
         'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
         '["pink"]',
@@ -243,6 +278,7 @@ VALUES (
         'J016',
         'Jean Jacket',
         3400,
+        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
         NULL,
         'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
         '["pink"]',
@@ -257,6 +293,7 @@ VALUES (
         'J017',
         'Jean Jacket',
         3400,
+        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
         NULL,
         'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
         '["pink"]',
