@@ -12,7 +12,7 @@ router.get('/', async (req, res, next) => {
       rows: [pagable],
     } = await db.query('SELECT count(*) FROM products');
     const { rows: result } = await db.query(
-      `SELECT p.id, p.name, p.price, p.description, p.code, p.image, p.min_age, p.max_age, p.uid, p.colors, c.name_en category_name_en, c.name_mm category_name_mm, p.updated_at, p.updated_at FROM products p INNER JOIN categories c on p.category = c.id ORDER BY p.created_at desc OFFSET ${offset} ROWS FETCH NEXT ${limit} ROWS ONLY`
+      `SELECT p.id, p.name, p.price, p.description, p.code, p.image, p.min_age, p.max_age, p.uid, p.colors, c.id category_id, c.name_en category_name_en, c.name_mm category_name_mm, p.updated_at, p.updated_at FROM products p INNER JOIN categories c on p.category = c.id ORDER BY p.created_at desc OFFSET ${offset} ROWS FETCH NEXT ${limit} ROWS ONLY`
     );
     res.json({
       status: 200,
@@ -132,7 +132,7 @@ router.get('/:id', async (req, res, next) => {
     const {
       rows: [result],
     } = await db.query(
-      'SELECT p.id, p.name, p.price, p.description, p.code, p.image, p.min_age, p.max_age, p.uid, p.colors, c.name_en category_name_en, c.name_mm category_name_mm, p.updated_at, p.updated_at FROM products p INNER JOIN categories c on p.category = c.id WHERE p.id=$1::uuid',
+      'SELECT p.id, p.name, p.price, p.description, p.code, p.image, p.min_age, p.max_age, p.uid, p.colors, c.id category_id, c.name_en category_name_en, c.name_mm category_name_mm, p.updated_at, p.updated_at FROM products p INNER JOIN categories c on p.category = c.id WHERE p.id=$1::uuid',
       [id]
     );
     if (!result) {
