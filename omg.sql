@@ -1,305 +1,197 @@
 -- @block
-CREATE TABLE categories (
-    id uuid PRIMARY KEY DEFAULT uuid_generate_v4() NOT NULL,
-    name_en VARCHAR UNIQUE NOT NULL,
-    name_mm VARCHAR,
-    created_at TIMESTAMPTZ DEFAULT now()
-);
--- @block
-CREATE TABLE products (
-    id uuid PRIMARY KEY DEFAULT uuid_generate_v4() NOT NULL,
-    code VARCHAR(16) NOT NULL,
-    name VARCHAR NOT NULL,
-    price INT NOT NULL,
-    description TEXT,
-    category uuid REFERENCES categories(id),
-    image VARCHAR,
-    colors JSON,
-    min_age INT,
-    max_age INT,
-    uid VARCHAR(32) NOT NULL,
+--
+CREATE TABLE users (
+    uid VARCHAR(32) PRIMARY KEY NOT NULL,
+    name VARCHAR,
+    role VARCHAR NOT NULL,
     updated_at TIMESTAMPTZ DEFAULT now(),
     created_at TIMESTAMPTZ DEFAULT now()
 );
 -- @block
-INSERT INTO categories(id, name_en)
+--
+CREATE TABLE categories (
+    id uuid PRIMARY KEY NOT NULL DEFAULT uuid_generate_v4(),
+    name VARCHAR NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT now()
+);
+-- @block
+--
+CREATE TABLE products (
+    id uuid PRIMARY KEY NOT NULL DEFAULT uuid_generate_v4(),
+    code VARCHAR(16) NOT NULL,
+    name VARCHAR NOT NULL,
+    price INT NOT NULL,
+    description TEXT,
+    category UUID REFERENCES categories(id),
+    image VARCHAR(500),
+    colors JSON,
+    min_age INT,
+    max_age INT,
+    uid VARCHAR(32) NOT NULL REFERENCES users(uid),
+    updated_at TIMESTAMPTZ DEFAULT now(),
+    created_at TIMESTAMPTZ DEFAULT now()
+);
+-- @block
+--
+INSERT INTO users(uid, name, role)
+VALUES ('u3W4Ufb9iyelrML8y10oesw7SNx2', 'Admin', 'admin');
+-- @block
+--
+INSERT INTO categories(id, name)
 VALUES (
         'fe75e3fe-55ad-4377-a669-0989ebb56b28',
         'Clothing'
     ),
-    ('6845a9fd-38cb-4baf-a460-f19ac87ee1e1', 'Hat'),
+    (
+        '6845a9fd-38cb-4baf-a460-f19ac87ee1e1',
+        'Hat'
+    ),
     (
         'd438097b-fb02-4404-b4bb-f1d033360e50',
         'Diapers'
     );
 -- @block
-INSERT INTO products (
+--
+INSERT INTO products(
         id,
-        code,
         name,
+        code,
         price,
-        category,
         description,
         image,
+        category,
         colors,
         min_age,
         max_age,
-        updated_at,
-        created_at,
         uid
     )
 VALUES (
-        '5b8bc61c-3ffe-44d0-952b-9903631408f0',
-        'J001',
+        '58db270d-62f6-48cd-8ca4-9afcb62f9f9a',
         'Jean Jacket',
-        8000,
-        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
-        NULL,
-        'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
-        '["pink"]',
-        4,
-        6,
-        '2022-02-20 08:43:41.099454+00',
-        '2022-02-20 08:43:41.099454+00',
-        'u3W4Ufb9iyelrML8y10oesw7SNx2'
-    ),
-    (
-        '2e68f678-580e-4f51-a374-bd8428903c65',
-        'J002',
-        'Jean Jacket',
-        5000,
-        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
-        NULL,
-        'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
-        '["pink"]',
-        4,
-        6,
-        '2022-02-20 09:30:03.650761+00',
-        '2022-02-20 09:30:03.650761+00',
-        'u3W4Ufb9iyelrML8y10oesw7SNx2'
-    ),
-    (
-        'd58c5788-51e1-4bac-931d-14068f41c44c',
-        'J003',
-        'Jean Jacket',
-        430,
-        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
-        NULL,
-        'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
-        '["pink"]',
-        4,
-        6,
-        '2022-02-20 09:30:03.650761+00',
-        '2022-02-20 09:30:03.650761+00',
-        'u3W4Ufb9iyelrML8y10oesw7SNx2'
-    ),
-    (
-        'f3296031-9978-4934-9a89-a6cf82ce44b9',
-        'J004',
-        'Jean Jacket',
+        'J017',
         3400,
-        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
-        NULL,
+        null,
         'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
+        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
         '["pink"]',
         4,
         6,
-        '2022-02-20 09:30:03.650761+00',
-        '2022-02-20 09:30:03.650761+00',
-        'u3W4Ufb9iyelrML8y10oesw7SNx2'
-    ),
-    (
-        'a9ea48e1-e8a6-4971-b734-b2bbc64a7e0a',
-        'J005',
-        'Jean Jacket',
-        8000,
-        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
-        NULL,
-        'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
-        '["pink"]',
-        4,
-        6,
-        '2022-02-20 09:30:03.650761+00',
-        '2022-02-20 09:30:03.650761+00',
-        'u3W4Ufb9iyelrML8y10oesw7SNx2'
-    ),
-    (
-        '25147ac1-5f54-46b9-9c29-b80d4d5ac8b1',
-        'J006',
-        'Jean Jacket',
-        3400,
-        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
-        NULL,
-        'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
-        '["pink"]',
-        4,
-        6,
-        '2022-02-20 09:32:29.458826+00',
-        '2022-02-20 09:32:29.458826+00',
-        'u3W4Ufb9iyelrML8y10oesw7SNx2'
-    ),
-    (
-        '448cb136-7268-470e-bc75-fdc04007b966',
-        'J007',
-        'Jean Jacket',
-        430,
-        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
-        NULL,
-        'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
-        '["pink"]',
-        4,
-        6,
-        '2022-02-20 09:32:29.458826+00',
-        '2022-02-20 09:32:29.458826+00',
-        'u3W4Ufb9iyelrML8y10oesw7SNx2'
-    ),
-    (
-        '6745936e-0a20-4550-9679-eb3e17fc9534',
-        'J008',
-        'Jean Jacket',
-        430,
-        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
-        NULL,
-        'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
-        '["pink"]',
-        4,
-        6,
-        '2022-02-20 09:32:29.458826+00',
-        '2022-02-20 09:32:29.458826+00',
-        'u3W4Ufb9iyelrML8y10oesw7SNx2'
-    ),
-    (
-        '674cc5ab-9d21-4fa7-bf5b-7463c5219212',
-        'J009',
-        'Jean Jacket',
-        8000,
-        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
-        NULL,
-        'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
-        '["pink"]',
-        4,
-        6,
-        '2022-02-20 09:32:29.458826+00',
-        '2022-02-20 09:32:29.458826+00',
-        'u3W4Ufb9iyelrML8y10oesw7SNx2'
-    ),
-    (
-        '796b648f-2ad5-4a41-ae20-11ab5d122c67',
-        'J010',
-        'Jean Jacket',
-        430,
-        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
-        NULL,
-        'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
-        '["pink"]',
-        4,
-        6,
-        '2022-02-20 09:32:29.458826+00',
-        '2022-02-20 09:32:29.458826+00',
-        'u3W4Ufb9iyelrML8y10oesw7SNx2'
-    ),
-    (
-        '81c4f7fa-7734-49ec-ab23-49bc32aea053',
-        'J011',
-        'Jean Jacket',
-        430,
-        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
-        NULL,
-        'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
-        '["pink"]',
-        4,
-        6,
-        '2022-02-20 09:32:29.458826+00',
-        '2022-02-20 09:32:29.458826+00',
         'u3W4Ufb9iyelrML8y10oesw7SNx2'
     ),
     (
         '86f4026e-d946-4b64-94f7-8220dec07d0a',
-        'J012',
         'Jean Jacket',
+        'J012',
         5000,
-        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
-        NULL,
+        null,
         'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
+        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
         '["pink"]',
         4,
         6,
-        '2022-02-20 09:32:29.458826+00',
-        '2022-02-20 09:32:29.458826+00',
         'u3W4Ufb9iyelrML8y10oesw7SNx2'
     ),
     (
         'c30b7f11-df88-49f9-8d84-93a4c63d99fe',
-        'J013',
         'Jean Jacket',
+        'J013',
         8000,
-        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
-        NULL,
+        null,
         'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
+        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
         '["pink"]',
         4,
         6,
-        '2022-02-20 09:32:29.458826+00',
-        '2022-02-20 09:32:29.458826+00',
         'u3W4Ufb9iyelrML8y10oesw7SNx2'
     ),
     (
         'e425e1fd-ef1e-408e-bb97-8ae190246735',
-        'J014',
         'Jean Jacket',
+        'J014',
         430,
-        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
-        NULL,
+        null,
         'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
+        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
         '["pink"]',
         4,
         6,
-        '2022-02-20 09:32:29.458826+00',
-        '2022-02-20 09:32:29.458826+00',
         'u3W4Ufb9iyelrML8y10oesw7SNx2'
     ),
     (
         'e9fdf45a-706b-4d0c-b9ed-2151d911fb9c',
-        'J015',
         'Jean Jacket',
+        'J015',
         3400,
-        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
-        NULL,
+        null,
         'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
+        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
         '["pink"]',
         4,
         6,
-        '2022-02-20 09:32:29.458826+00',
-        '2022-02-20 09:32:29.458826+00',
         'u3W4Ufb9iyelrML8y10oesw7SNx2'
     ),
     (
         '53028568-bf4a-4091-9069-f834d777c373',
-        'J016',
         'Jean Jacket',
+        'J016',
         3400,
-        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
-        NULL,
+        null,
         'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
+        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
         '["pink"]',
         4,
         6,
-        '2022-02-20 09:32:29.458826+00',
-        '2022-02-20 09:32:29.458826+00',
         'u3W4Ufb9iyelrML8y10oesw7SNx2'
     ),
     (
-        '58db270d-62f6-48cd-8ca4-9afcb62f9f9a',
-        'J017',
+        '25147ac1-5f54-46b9-9c29-b80d4d5ac8b1',
         'Jean Jacket',
+        'J006',
         3400,
-        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
-        NULL,
+        null,
         'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
+        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
         '["pink"]',
         4,
         6,
-        '2022-02-20 09:32:29.458826+00',
-        '2022-02-20 09:32:29.458826+00',
+        'u3W4Ufb9iyelrML8y10oesw7SNx2'
+    ),
+    (
+        '448cb136-7268-470e-bc75-fdc04007b966',
+        'Jean Jacket',
+        'J007',
+        430,
+        null,
+        'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
+        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
+        '["pink"]',
+        4,
+        6,
+        'u3W4Ufb9iyelrML8y10oesw7SNx2'
+    ),
+    (
+        '6745936e-0a20-4550-9679-eb3e17fc9534',
+        'Jean Jacket',
+        'J008',
+        430,
+        null,
+        'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
+        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
+        '["pink"]',
+        4,
+        6,
+        'u3W4Ufb9iyelrML8y10oesw7SNx2'
+    ),
+    (
+        '674cc5ab-9d21-4fa7-bf5b-7463c5219212',
+        'Jean Jacket',
+        'J009',
+        8000,
+        null,
+        'https://storage.googleapis.com/omg-baby.appspot.com/0510d368cc877b235e9f985ce9aec069',
+        'fe75e3fe-55ad-4377-a669-0989ebb56b28',
+        '["pink"]',
+        4,
+        6,
         'u3W4Ufb9iyelrML8y10oesw7SNx2'
     );
