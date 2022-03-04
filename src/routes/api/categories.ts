@@ -6,7 +6,7 @@ export const router = Router();
 router.get('/', async (req, res, next) => {
   try {
     const { rows: result } = await db.query(
-      `SELECT c.id, c.name_en, c.name_mm, c.created_at FROM categories c ORDER BY c.created_at`
+      `SELECT c.id, c.name, c.created_at FROM categories c ORDER BY c.created_at`
     );
     res.json({
       status: 200,
@@ -32,25 +32,18 @@ router.post('/', json(), async (req, res, next) => {
         message: 'Bad request',
       });
     }
-    if (typeof data.name_en !== 'string') {
+    if (typeof data.name !== 'string') {
       return res.status(400).json({
         status: 400,
         error: true,
-        message: 'category.name_en is required and must be string.',
-      });
-    }
-    if (data.name_en && typeof data.name_en !== 'string') {
-      return res.status(400).json({
-        status: 400,
-        error: true,
-        message: 'category.name_mm must be string.',
+        message: 'category.name is required and must be string.',
       });
     }
     const {
       rows: [result],
     } = await db.query(
-      'INSERT INTO categories(name_en, name_mm) VALUES ($1::text, $2::text) RETURNING id, name_en, name_mm',
-      [data.name_en, data.name_mm]
+      'INSERT INTO categories(name) VALUES ($1::text) RETURNING id, name',
+      [data.name]
     );
     res.status(201).json({
       status: 201,
@@ -77,25 +70,18 @@ router.put('/:id', json(), async (req, res, next) => {
         message: 'Bad request',
       });
     }
-    if (typeof data.name_en !== 'string') {
+    if (data.name && typeof data.name !== 'string') {
       return res.status(400).json({
         status: 400,
         error: true,
-        message: 'category.name_en is required and must be string.',
-      });
-    }
-    if (data.name_en && typeof data.name_en !== 'string') {
-      return res.status(400).json({
-        status: 400,
-        error: true,
-        message: 'category.name_mm must be string.',
+        message: 'category.name must be string.',
       });
     }
     const {
       rows: [result],
     } = await db.query(
-      'UPDATE categories SET name_en=$1::text,name_mm=$2::text WHERE id=$3::uuid RETURNING id, name_en, name_mm',
-      [data.name_en, data.name_mm, id]
+      'UPDATE categories SET name=$1::text WHERE id=$2::uuid RETURNING id, name',
+      [data.name, id]
     );
     if (!result) {
       return res.status(404).json({
@@ -124,7 +110,7 @@ router.get('/:id', async (req, res, next) => {
     const {
       rows: [result],
     } = await db.query(
-      'SELECT c.id, c.name_en, c.name_mm, c.created_at FROM categories c WHERE id=$1::uuid',
+      'SELECT c.id, c.name, c.created_at FROM categories c WHERE id=$1::uuid',
       [id]
     );
     if (!result) {
